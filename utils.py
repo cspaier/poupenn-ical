@@ -16,14 +16,13 @@ def get_ical(prenom):
     with requests.Session() as s:
         download = s.get(get_csv_url())
         decoded_content = download.content.decode('utf-8')
-
-        cr = csv.DictReader(decoded_content.splitlines()[1:], delimiter=',')
+        cr = csv.DictReader(decoded_content.splitlines()[3:], delimiter=',')
         lignes = list(cr)
 
         if prenom not in lignes[0].keys():
             return None
 
-        lignes = iter(lignes[2:])
+        lignes = iter(lignes[3:])
         cal = vobject.iCalendar()
         cal.add('method').value = 'PUBLISH' # IE/Outlook needs this
         for ligne in lignes:
